@@ -1,0 +1,62 @@
+// Doctor entry
+{
+    "firstName": "Alex",
+    "lastName": "Watson",
+    "email": "alex.watson@stlukes.com",
+    "password": "hello@1234",
+    "age": "40",
+    "gender": "M",
+    "community": "Three Lakes",
+    "address_1": "1105w, 99Pl",
+    "address_2": "Apt 30",
+    "city": "OverlandPark",
+    "state": "KS",
+    "addressProofID": {
+        "drivingLicense": null,
+        "stateId": "36902468",
+        "passport": null
+    },
+    "phone": "12345667890",
+    "role": "doctor"
+}
+
+// User entry
+{
+    "firstName": "Rohith",
+    "lastName": "Vallabhaneni",
+    "email": "rohith.vallabhaneni.3@gmail.com",
+    "password": "hello@123",
+    "age": "25",
+    "gender": "M",
+    "community": "Sandstone Creek",
+    "address_1": "7305w, 139Pl",
+    "address_2": "Apt 4008",
+    "city": "OverlandPark",
+    "state": "KS",
+    "addressProofID": {
+        "drivingLicense": "12345678",
+        "stateId": null,
+        "passport": null
+    },
+    "phone": "4693944047",
+    "role": "user"
+},
+
+// vaccine information 
+
+{
+    "patientEmail": "rohith.vallabhaneni.3@gmail.com",
+    "covid_info": {
+        "vaccinationHistory": {
+            "vaccine_name": "Pfizer",
+            "first_shot_on": "14/05/2021",
+            "second_shot_on": "14/10/2021"
+        },
+        "covid_affected": true,
+        "affected_on": "31/10/2021",
+        "covid_recovered": true,
+        "recovered_on": "30/11/2021",
+        "qurantine_start_date": "03/11/2021",
+        "qurantine_end_date": "21/11/2021"
+    }
+}
