@@ -13,6 +13,7 @@ const randomString = (length) => {
 var password = randomString(32);
 const generateNewSession = () => {
   password = randomString(32);
+  return "A new session is created invalidating all the older sessions";
 };
 
 function encrypt(text) {
