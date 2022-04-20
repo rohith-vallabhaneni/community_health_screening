@@ -16,14 +16,16 @@ const tokenList = {};
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var bcrypt = require('bcryptjs');
 var config = require('../../config'); // get config file
+const helper = require('../../helper');
 
-router.post('/login', function (req, res) {
-  User.findOne({ Primary: req.body.primary }, function (err, user) {
+router.post('/login', function (request, res) {
+  const req = JSON.parse(helper.decrypt(request.body.decryptthis));
+  User.findOne({ Primary: req.primary }, function (err, user) {
     if (err) return res.status(500).send('Error on the server.');
     if (!user) return res.status(404).send('No user found.');
 
     // check if the password is valid
-    var passwordIsValid = bcrypt.compareSync(req.body.password, user.Password);
+    var passwordIsValid = bcrypt.compareSync(req.password, user.Password);
     if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
 
     // if user is found and password is valid
