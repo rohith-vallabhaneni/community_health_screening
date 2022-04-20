@@ -42,7 +42,7 @@ router.get("/getNearByHospitals", function (req, res) {
     const user_collection = client.db("community").collection("user_details");
     const city = await user_collection.find({ email: req.query.email},{projection : {city:1}}).toArray();
     const collection = client.db("community").collection("hospital_information");
-    const findResult = await collection.find({ patientEmail: city.city}).toArray();
+    const findResult = await collection.find({ city: city[0].city}).toArray();
     res.status(200).send(findResult);
     client.close();
   });
@@ -158,7 +158,7 @@ router.post("/addUser", function (req, res) {
 router.get("/fetchUserById", function (req, res) {
   client.connect(async (err) => {
     const collection = client.db("community").collection("user_details");
-    const findResult = await collection.find({ email: req.query.email }, {projection: { password: 0, role: 0 }}).toArray();
+    const findResult = await collection.findOne({ email: req.query.email }, {projection: { password: 0, role: 0 }});
     res.status(200).send(findResult);
     client.close();
   });
@@ -253,14 +253,13 @@ router.post("/addConsultation", function (req, res){
       }
     });
     if(!patient_available){
-      doctor_details.patients = [
+      doctor_details.patients.push(
         {
         "patientEmail": patient_email,
         "visits": [
           req.body.visit
         ]
-        }
-      ]
+        })
     }
 
     // Update patient details object
@@ -271,14 +270,13 @@ router.post("/addConsultation", function (req, res){
       }
     });
     if(!doctor_available){
-      patient_details.doctor_details = [
+      patient_details.doctor_details.push(
         {
         "doctorEmail": doctor_email,
         "visits": [
           req.body.visit
         ]
-        }
-      ]
+        })
     }
 
     await patient_collection.updateOne(
@@ -293,6 +291,33 @@ router.post("/addConsultation", function (req, res){
     
 
     res.status(200).send("Updated the consultation information");
+    client.close();
+  });
+});
+
+router.get("/fetchAllUsers", function (req, res) {
+  client.connect(async (err) => {
+    const collection = client.db("community").collection("user_details");
+    const findResult = await collection.find({}, {projection: { password: 0 }}).toArray();
+    res.status(200).send(findResult);
+    client.close();
+  });
+});
+
+router.get("/getAllPatientsInfo", function (req, res) {
+  client.connect(async (err) => {
+    const collection = client.db("community").collection("patient_details");
+    const findResult = await collection.find({}).toArray();
+    res.status(200).send(findResult);
+    client.close();
+  });
+});
+
+router.get("/getAllDoctorsInfo", function (req, res) {
+  client.connect(async (err) => {
+    const collection = client.db("community").collection("doctor_consultation");
+    const findResult = await collection.find({}).toArray();
+    res.status(200).send(findResult);
     client.close();
   });
 });
