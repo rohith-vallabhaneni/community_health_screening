@@ -29,6 +29,7 @@ router.post('/login', function (req, res) {
             client.close();
         }
         else return res.status(400).send("User not exists!");
+        client.close();
     });
 });
 module.exports = router;
